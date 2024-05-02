@@ -1,14 +1,12 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-import networkx as nx
-import matplotlib.pyplot as plt
 
-def draw_graph(path1=None, path2=None):
+def draw_graph(graph_file, path1=None, path2=None):
     G = nx.DiGraph()
 
     # open the file
-    with open('graph.txt', 'r') as file:
+    with open(graph_file, 'r') as file:
         # read number of vertices and edges
         n, m = map(int, file.readline().split())
 
@@ -34,10 +32,3 @@ def draw_graph(path1=None, path2=None):
         nx.draw_networkx_edges(G, pos, edgelist=edges, edge_color='b', width=2)
 
     plt.show()
-
-
-# specify the path to be highlighted
-path = ['a', 'x', 'm', 'l', 'k', 'c']
-path2 = ['a', 'x', 'i', 'v', 'b', 'u', 'l', 'k', 'c']
-draw_graph(path, path2)
-

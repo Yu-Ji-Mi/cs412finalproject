@@ -1,7 +1,10 @@
 from collections import defaultdict
 import time
+from printgraph import draw_graph
 
 # Builds a graph and calls the Lookahead.
+
+
 class Graph:
     def __init__(self):
         self.graph = defaultdict(list)
@@ -27,13 +30,16 @@ class Graph:
             if neighbor not in visited:
                 # if look_ahead is greater than 0, then call lookahead
                 if look_ahead > 0:
-                    temp_length = self.lookahead(neighbor, visited, look_ahead - 1, weight)
+                    temp_length = self.lookahead(
+                        neighbor, visited, look_ahead - 1, weight)
                     # if the length of the path is greater than the longest path, then call dfs
                     if temp_length + length > self.longest_path_length:
-                        self.dfs(neighbor, visited, path, length + weight, look_ahead)
+                        self.dfs(neighbor, visited, path,
+                                 length + weight, look_ahead)
                 else:
                     # if look_ahead is 0, then call dfs
-                    self.dfs(neighbor, visited, path, length + weight, look_ahead)
+                    self.dfs(neighbor, visited, path,
+                             length + weight, look_ahead)
         # backtrack
         path.pop()
         visited.remove(node)
@@ -47,9 +53,11 @@ class Graph:
         for neighbor, weight in self.graph[node]:
             if neighbor not in visited:
                 # is the temp_length greater than the max_length?
-                temp_length = self.lookahead(neighbor, visited, look_ahead - 1, length + weight)
+                temp_length = self.lookahead(
+                    neighbor, visited, look_ahead - 1, length + weight)
                 max_length = max(max_length, temp_length)
         return max_length
+
 
 def read_graph_from_file(filename):
     with open(filename, 'r') as file:
@@ -61,8 +69,10 @@ def read_graph_from_file(filename):
             edges.append((u, v, int(w)))
         return vertices, edges
 
+
 # Test case
-vertices, edges = read_graph_from_file('graph.txt')
+g_file = 'inputs/graph.txt'
+vertices, edges = read_graph_from_file(g_file)
 g = Graph()
 for u, v, w in edges:
     g.add_edge(u, v, w)
@@ -73,7 +83,11 @@ for look_ahead in range(1, 10):  # Ranges of lookahead
     start_time = time.time()
     g.dfs('a', set(), [], 0, look_ahead)
     end_time = time.time()
-    print(f"Look ahead {look_ahead}, Time: {end_time - start_time} seconds")
+    print(f"Look Ahead: {look_ahead} Node(s)")
+    print(f"Time: {end_time - start_time} seconds")
     print(g.longest_path_length)
-    # print the longest path in this format ['a', 'b', 'c', 'd', 'e']
-    print(g.longest_path)
+    # print the longest path in this format a b c d e
+    print(" ".join(g.longest_path) + "\n")
+    longest_path = g.longest_path
+
+draw_graph(g_file, longest_path)
