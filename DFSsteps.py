@@ -1,7 +1,7 @@
 from collections import defaultdict
 import time
 from printgraph import draw_graph
-
+from drawtiming import drawtimingplot
 # Builds a graph and calls the Lookahead.
 
 
@@ -71,12 +71,12 @@ def read_graph_from_file(filename):
 
 
 # Test case
-g_file = 'inputs/graph.txt'
+g_file = 'inputs/graphlarge.txt'
 vertices, edges = read_graph_from_file(g_file)
 g = Graph()
 for u, v, w in edges:
     g.add_edge(u, v, w)
-
+timings = []
 for look_ahead in range(1, 10):  # Ranges of lookahead
     g.longest_path_length = 0
     g.longest_path = []
@@ -85,9 +85,11 @@ for look_ahead in range(1, 10):  # Ranges of lookahead
     end_time = time.time()
     print(f"Look Ahead: {look_ahead} Node(s)")
     print(f"Time: {end_time - start_time} seconds")
+    timings.append(end_time - start_time)
     print(g.longest_path_length)
     # print the longest path in this format a b c d e
     print(" ".join(g.longest_path) + "\n")
     longest_path = g.longest_path
 
 draw_graph(g_file, longest_path)
+drawtimingplot(timings)

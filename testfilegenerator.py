@@ -12,9 +12,9 @@ def generate_test_file(file_path, num_vertices, num_edges):
             while u == v:
                 v = random.choice(vertices)
             # Adjust the range of weights as needed
-            w = random.randint(-50, 50)
+            w = random.randint(1, 50)
             file.write(f"{u} {v} {w}\n")
 
 
 # Usage example
-generate_test_file('graph.txt', 50, 100)
+generate_test_file('graph.txt', 15, 15)
